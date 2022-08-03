@@ -11,6 +11,7 @@
     <ImageView
         android:id="@+id/ivFirst"
         android:layout_width="250dp"
+        android:background="@drawable/calculator"
         android:layout_height="250dp"/>
 
     <EditText

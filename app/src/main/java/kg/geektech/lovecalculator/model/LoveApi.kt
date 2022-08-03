@@ -10,7 +10,7 @@ interface LoveApi {
 fun getPercentage(
     @Query("fname" )firstname : String,
     @Query("sname" )secondname : String,
-    @Header("X - RapidAPI - Key") key : String = "d9c69eb852mshd6d8b36b8bcbba3p12fd8cjsn77bed9ffbdeb",
-    @Header("X - RapidAPI - Host") host : String = "love-calculator.p.rapidapi.com"
+    @Header("X-RapidAPI-Key") key : String = "d9c69eb852mshd6d8b36b8bcbba3p12fd8cjsn77bed9ffbdeb",
+    @Header("X-RapidAPI-Host") host : String = "love-calculator.p.rapidapi.com"
     ): retrofit2.Call<LoveModel>
 }
