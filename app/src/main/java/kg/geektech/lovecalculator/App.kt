@@ -1,18 +1,18 @@
 package kg.geektech.lovecalculator
 
 import android.app.Application
-import kg.geektech.lovecalculator.model.LoveApi
+import kg.geektech.lovecalculator.network.LoveApi
 
 
 class App : Application() {
     companion object{
-        lateinit var loveApi: LoveApi
+        lateinit var api: LoveApi
 
     }
 
     override fun onCreate() {
         super.onCreate()
-        val retrofitService = RetrofitService()
-        loveApi = retrofitService.getApi()
+        val retrofit = RetrofitService()
+        api = retrofit.api
     }
 }

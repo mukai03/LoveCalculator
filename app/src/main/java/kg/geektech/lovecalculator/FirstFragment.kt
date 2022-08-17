@@ -1,10 +1,12 @@
 package kg.geektech.lovecalculator
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import kg.geektech.lovecalculator.model.LoveModel
 import kg.geektech.lovecalculator.databinding.FragmentFirstBinding
@@ -16,6 +18,8 @@ class FirstFragment : Fragment() {
 
     private lateinit var binding: FragmentFirstBinding
 
+    val viewModel : LoveViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,35 +30,41 @@ class FirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        clickInit()
+        initClickers()
+
     }
 
-    private fun clickInit() {
-        with(binding){
+    private fun initClickers() {
+        with(binding) {
+            btnNext.setOnClickListener {
+                viewModel.getLiveLoveModel(
+                    firstNameEd.text.toString(),
+                    secondNameEd.text.toString()
+                ).observe(viewLifecycleOwner) {
 
-            val firstName=binding.etFirstName.text.toString()
-            val secondName=binding.etSecondName.text.toString()
-            App.loveApi.getPercentage(firstName, secondName).enqueue(object : Callback<LoveModel> {
-                override fun onResponse(call: Call<LoveModel>, response: Response<LoveModel>) {
-                    if (response.isSuccessful){
-                        val bundle = Bundle()
-                        bundle.putString("fname", response.body()?.firstname)
-                        bundle.putString("sname", response.body()?.secondname)
-                        bundle.putString("percentage", response.body()?.percentage)
-                        bundle.putString("result", response.body()?.result)
-                        btnNext.setOnClickListener {
+                }
+                val firstName = binding.firstNameEd.text.toString()
+                val secondName = binding.secondNameEd.text.toString()
+                App.api.getPercentage(firstName, secondName).enqueue(object : Callback<LoveModel> {
+                    override fun onResponse(call: Call<LoveModel>, response: Response<LoveModel>) {
+                        if (response.isSuccessful) {
+                            val loveModel = response.body()
+                            val bundle = Bundle()
+                            bundle.putSerializable("loveModel", loveModel)
                             findNavController().navigate(R.id.secondFragment, bundle)
+                            firstNameEd.text.clear()
+                            secondNameEd.text.clear()
+
                         }
+                        Log.e("ololo", "onResponse: ${response.body()}")
                     }
-                }
 
-                override fun onFailure(call: Call<LoveModel>, t: Throwable) {
+                    override fun onFailure(call: Call<LoveModel>, t: Throwable) {
+                        Log.e("ololo", "onFailure: ${t.message}")
+                    }
 
-                }
-
-            })
+                })
+            }
         }
     }
-
-
 }

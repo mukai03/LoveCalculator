@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/firstFragment">
-
     <fragment
         android:id="@+id/firstFragment"
         android:name="kg.geektech.lovecalculator.FirstFragment"
@@ -15,5 +14,4 @@
         android:name="kg.geektech.lovecalculator.SecondFragment"
         android:label="fragment_second"
         tools:layout="@layout/fragment_second" />
-
 </navigation>

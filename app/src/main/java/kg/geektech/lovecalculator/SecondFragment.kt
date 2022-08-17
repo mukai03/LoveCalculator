@@ -7,13 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import kg.geektech.lovecalculator.databinding.FragmentSecondBinding
+import kg.geektech.lovecalculator.model.LoveModel
 
 class SecondFragment : Fragment() {
 
     private lateinit var binding: FragmentSecondBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSecondBinding.inflate(layoutInflater)
@@ -27,15 +29,14 @@ class SecondFragment : Fragment() {
     }
 
     private fun onClick() {
-        val firstName = arguments?.getString("fname")
-        val secondName = arguments?.getString("s")
-        val percentage = arguments?.getString("percentage")
-        val result = arguments?.getString("result")
+        val loveModel: LoveModel = arguments?.getSerializable("loveModel") as LoveModel
+        with(binding){
+            tvFirstName.text = loveModel.firstName
+            tvSecondName.text = loveModel.secondName
+            tvResult.text = loveModel.result
+            tvPercent.text = loveModel.percentage
 
-        binding.tvFirstName.text = firstName
-        binding.tvSecondName.text = secondName
-        binding.tvPercent.text = percentage
-        binding.result.text = result
+        }
     }
 
     private fun listener() {
